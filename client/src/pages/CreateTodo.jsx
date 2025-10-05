@@ -1,38 +1,37 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react'
-import { createTodo } from '../features/auth/authSlice'
+import { createTodo } from '../features/todo/todoSlice'
 
 const CreateTodo = () => {
 
 let dispatch = useDispatch()
-let {message} = useSelector(state=> state.auth)
+let {loading,message, error} = useSelector(state=> state.todo)
 let [form,setForm] = useState({
     text: '',
     avatar: ''
 })
 
 let handleSubmit = ()=>{
-    console.log(form);
-    dispatch(createTodo(form))
-    setForm({
-    text: '',
-    avatar: ''
-})
+    
+    let formData = new FormData()
+    formData.append('text', form.text)
+    formData.append('avatar', form.avatar)
+    dispatch(createTodo(formData))
 }
 
 
   return (
     <> 
     <h2>CreateTodo</h2>
-    <input onChange={(e)=> setForm({...form, avatar: e.target.files})} type="file" name="avatar"/>
-
+    <input onChange={(e)=> setForm({...form, avatar: e.target.files[0]})} type="file" name="avatar"/>
     <input onChange={(e)=> setForm({...form, text : e.target.value})} type="text" placeholder='write here...'/>
-    <button onClick={handleSubmit}>submit</button>
+    <button onClick={handleSubmit}> {loading ? 'Loading...' : 'Submit'} </button>
     
-    {message && console.log(message)}
+    {message && <h2> {message} </h2>}
+    {error && console.log(error)}
     
     </>
   )
 }
-
+ 
 export default CreateTodo

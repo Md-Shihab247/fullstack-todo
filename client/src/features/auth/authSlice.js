@@ -42,14 +42,7 @@ export const resetPass = createAsyncThunk('auth/resetPass',async({resetToken,pas
         }
 })
 
-export const createTodo = createAsyncThunk('auth/createTodo', async(data, thunkAPI)=>{
-    try {
-        let res = await authApi.createTodo(data)
-        return res.data
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error.message)
-    }
-})
+
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -77,7 +70,7 @@ export const authSlice = createSlice({
         state.loading = false
         state.message = action.payload.message
         state.accessToken = action.payload.accessToken
-        localStorage.setItem('accessToken', JSON.stringify(action.payload.accessToken))
+        localStorage.setItem('accessToken', JSON.stringify(state.accessToken))
     })
     .addCase(login.rejected, (state, action)=>{
         state.loading = false
@@ -96,17 +89,7 @@ export const authSlice = createSlice({
     .addCase(resetPass.fulfilled ,(state, action)=>{
         state.message = action.payload.message
     })
-    .addCase(createTodo.pending, (state, action)=>{
-        state.loading = true
-    })
-    .addCase(createTodo.fulfilled ,(state, action)=>{
-        state.loading = false
-        state.message = action.payload.message
-    })
-    .addCase(createTodo.rejected ,(state, action)=>{
-        state.loading = false
-        state.error = action.payload
-    })
+    
   }
 })
 

@@ -22,7 +22,7 @@ const forgotPasswordController = async (req, res) => {
     );
     let resetLink = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
     transporter.sendMail({
-      from: process.envEMAIL_USER,
+      from: process.env.EMAIL_USER,
       to: userExist.email,
       subject: "Reset Password",
       html: `<h3>Please <a href=${resetLink}> click here </a> to Reset Password</h3>`,

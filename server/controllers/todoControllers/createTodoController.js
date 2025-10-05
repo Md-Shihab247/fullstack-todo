@@ -1,14 +1,11 @@
 const todosModel = require("../../model/todosModel")
 
-
 const createTodoController = async (req,res) => {
   
     try {
     let {text} = req.body
     let mediaPath = null
     let mediaType = null
-    console.log(req.file)
-
     if (req.file) {
         mediaPath = req.file.path
         if (req.file.mimetype.startsWith('image/')) { mediaType = 'image' }
@@ -30,5 +27,4 @@ const createTodoController = async (req,res) => {
 
 }
  
-
 module.exports = createTodoController

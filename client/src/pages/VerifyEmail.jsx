@@ -14,14 +14,11 @@ const VerifyEmail = () => {
       dispatch(verifyEmail(token))
     }
 
-  },[])
+  },[token, dispatch])
 
   return (
+    message  &&  <h2>{message}</h2>
 
-    <>
-
-    {message  &&  <h2>{message}</h2>}
-    </>
   )
 }
 

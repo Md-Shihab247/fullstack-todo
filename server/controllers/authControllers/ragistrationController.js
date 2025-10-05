@@ -1,13 +1,17 @@
 const userModel = require("../../model/userModel")
-let bcrypt = require('bcryptjs')
-let nodemailer = require('nodemailer')
-let jwt = require('jsonwebtoken') 
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken') 
+const Queue = require('bull')
+const sendMail = require("../../utils/sendMail")
 
-let transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL_user,
-        pass: process.env.EMAIL_PASS
+
+
+let emailQueue = new Queue('email', {
+    redis: {
+        host: 'redis-13656.c283.us-east-1-4.ec2.redns.redis-cloud.com',
+        port: 13656,
+        username: 'default',
+        password: 'oWln4KDz7pA1R1msBD8U56LkYVhsy5jb'
     }
 })
 
@@ -42,15 +46,11 @@ const ragistrationController = async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         {expiresIn: '1d'})
 
-    let verifyLink = `${process.env.CLIENT_URL}/verify/${verificationToken}`
-    await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: 'Verify your email',
-        html: `<h1>Verify your email</h1>
-        <h3>Click <a href="${verifyLink}">here</a> to verify your email</h3>`
-    })   
- 
+    await emailQueue.add('verifyEmail', {email : user.email, token: verificationToken}, {
+        attempts: 5,
+        backoff: 5000,
+        removeOnComplete: true // Automatically remove ( job success )
+    })
     res.status(201).send({message : 'Account created successfully'})
     
   } catch (error) {
@@ -59,5 +59,15 @@ const ragistrationController = async (req, res) => {
   }
   
 }
+
+emailQueue.process('verifyEmail', async (job) => {
+    try {
+        sendMail(job.data.email, job.data.token)
+    } catch (error) {
+        console.log("email not sent" + error)
+    }
+}) 
+  
+ 
 
 module.exports = ragistrationController
