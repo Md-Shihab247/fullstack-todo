@@ -11,9 +11,9 @@ let api = axios.create({
 
  api.interceptors.request.use(async (config)=>{
 
-        if(exceptions.includes(config.url)) return config
+        if(exceptions.includes(config.url) || config.url.startsWith('/auth/verify/')) return config
+        
         if(localStorage.getItem('accessToken')){ 
-
             let accessToken = JSON.parse(localStorage.getItem('accessToken'))  
             let decoded = jwtDecode(accessToken)
             if (decoded.exp * 1000 < Date.now()) {
