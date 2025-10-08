@@ -8,6 +8,17 @@ const todoRoutes = require('./routes/todoRoutes')
 const cookieParser = require('cookie-parser')
 const swaggerUi = require('swagger-ui-express')
 const swaggerJsdoc = require('swagger-jsdoc') 
+const { rateLimit } = require('express-rate-limit')
+
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, 
+	limit: 5, 
+	standardHeaders: true,
+	legacyHeaders: false, 
+    message : {error: "Too many requests, please try again later."}
+})
+
 
 connectDB()
 app.use(cors({
@@ -16,7 +27,7 @@ app.use(cors({
 }))
 
 
- swaggerOptions = {
+swaggerOptions = {
     definition: {
         openapi: '3.0.0',
         info: {
@@ -36,6 +47,7 @@ app.use(cors({
 const specs = swaggerJsdoc(swaggerOptions)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 
+app.use(limiter)
 app.use(cookieParser())
 app.use(express.json())
 app.use('/uploads', express.static('uploads'))
