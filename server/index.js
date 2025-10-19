@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser')
 const swaggerUi = require('swagger-ui-express')
 const swaggerJsdoc = require('swagger-jsdoc') 
 const { rateLimit } = require('express-rate-limit')
-
+const healthRoute = require('./routes/healthRoute')
 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, 
@@ -53,6 +53,7 @@ app.use(express.json())
 app.use('/uploads', express.static('uploads'))
 app.use('/api/auth', authRoutes)
 app.use('/api/todo', todoRoutes)
+app.use('/api/check/', healthRoute)
 
 app.listen(process.env.PORT, () => {
     console.log('Server is running')

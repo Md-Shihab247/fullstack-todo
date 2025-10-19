@@ -8,10 +8,10 @@ const sendMail = require("../../utils/sendMail")
 
 let emailQueue = new Queue('email', {
     redis: {
-        host: 'redis-13656.c283.us-east-1-4.ec2.redns.redis-cloud.com',
-        port: 13656,
-        username: 'default',
-        password: 'oWln4KDz7pA1R1msBD8U56LkYVhsy5jb'
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_POR,
+        username: process.env.REDIS_USERNAME,
+        password: process.env.REDIS_PASSWORD
     }
 })
 

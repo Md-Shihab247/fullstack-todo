@@ -15,6 +15,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'todo',
+    resource_type: 'auto',
     allowedFormats: ['jpg', 'jpeg', 'png','mp4','mov'],
   }
 })
