@@ -35,12 +35,12 @@ const CreateTodo = () => {
   return (
 
     <>
-     <section className="relative min-h-screen w-full flex items-center justify-center  overflow-hidden text-white"> 
-      <div className="shadow-glow relative z-10 w-full max-w-lg p-10 bg-form-bg rounded-2xl shadow-2xl">
+     <section className="relative scale-90 sm:scale-95 lg:scale-100 min-h-screen w-full flex items-center justify-center  overflow-hidden text-white"> 
+      <div className="shadow-glow relative z-10 w-full max-w-lg p-6 sm:p-8 md:p-10 bg-form-bg rounded-2xl shadow-2xl">
         <div className=' flex justify-center'>
-          <SiProtodotio className=' text-7xl text-[#0070f3]'/>
+          <SiProtodotio className=' text-5xl md:text-6xl lg:text-7xl text-[#0070f3]'/>
         </div>
-        <h2 className="text-2xl font-semibold text-center my-4">Todo Application</h2>
+        <h2 className=" text-xl md:text-2xl font-semibold text-center my-3 md:my-4">Todo Application</h2>
 
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div className="relative">

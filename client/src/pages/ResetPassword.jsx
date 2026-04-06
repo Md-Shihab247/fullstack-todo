@@ -35,11 +35,11 @@ const ResetPassword = () => {
 
   return (
     <>
-      <section className=" bg-main w-full min-h-screen flex flex-col items-center justify-center text-center text-white">
-            <div className="shadow-glow relative z-10 w-full max-w-lg p-10 bg-form-bg rounded-2xl shadow-2xl">
+      <section className=" w-full scale-90 sm:scale-95 lg:scale-100 min-h-screen flex flex-col items-center justify-center text-center text-white">
+            <div className="shadow-glow relative z-10 w-full max-w-lg p-6 sm:p-8 md:p-10 bg-form-bg rounded-2xl shadow-2xl">
             <form onSubmit={formik.handleSubmit} className="space-y-4">
               <h2 className="text-xl font-semibold text-center mb-2">Create new password</h2>
-              <p className="text-sm font-normal text-center mb-10">Enter new password to change your password.</p>
+              <p className="text-sm font-normal text-center mb-6 sm:mb-8 md:mb-10">Enter new password to change your password.</p>
                 <div className="relative">
                   <input 
                     type="password" 

@@ -11,6 +11,7 @@ const swaggerJsdoc = require('swagger-jsdoc')
 const { rateLimit } = require('express-rate-limit')
 const healthRoute = require('./routes/healthRoute')
 
+connectDB()
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, 
 	limit: process.env.NODE_ENV === 'production' ? 5 : 100, 
@@ -19,11 +20,11 @@ const limiter = rateLimit({
     message : {error: "Too many requests, please try again later."}
 })
 
-connectDB()
 app.use(cors({
     origin: ['http://localhost:5173','https://todo-application-smoky.vercel.app'],
     credentials: true
 }))
+
 
 
 swaggerOptions = {
@@ -55,5 +56,5 @@ app.use('/api/todo', todoRoutes)
 app.use('/api/check/', healthRoute)
 
 app.listen(process.env.PORT, () => {
-    console.log(`Server is running${process.env.PORT}`)
+    console.log(`Server is running ${process.env.PORT}`)
 })
